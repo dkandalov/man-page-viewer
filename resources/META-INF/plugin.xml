@@ -1,0 +1,21 @@
+<idea-plugin>
+    <id>man-page-viewer</id>
+    <name>Man page viewer</name>
+    <version>0.1</version>
+    <vendor email="dmitry.kandalov@gmail.com" url="https://github.com/dkandalov/man-page-viewer">Dmitry Kandalov</vendor>
+
+    <description><![CDATA[
+        Plugin viewing man pages from IDE.
+    ]]></description>
+
+    <!-- http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html -->
+    <!-- Since IJ 2016.1 because it has Kotlin support. -->
+    <idea-version since-build="145"/>
+
+    <!-- See http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <actions>
+        <action class="manpageviewer.OpenManPage" keymap="ctrl shift M"/>
+    </actions>
+</idea-plugin>
