@@ -28,15 +28,16 @@ class OpenManPage : AnAction() {
         if (term == null) {
             val offset = editor.caretModel.offset
             val text = editor.document.charsSequence.toString()
-            val from = (0..offset).reversed().find { i -> !Character.isJavaIdentifierPart(text[i]) } ?: offset + 1
-            val to = (offset..text.length).find { i -> !Character.isJavaIdentifierPart(text[i]) } ?: offset
+            val from = 0.until(offset).reversed().find { i -> !Character.isJavaIdentifierPart(text[i]) }?.let{ it + 1 } ?: offset
+            val to = offset.until(text.length).find { i -> !Character.isJavaIdentifierPart(text[i]) } ?: offset
             term = text.substring(from, to).toLowerCase()
         }
         if (term.isEmpty()) return
 
-        // man -S 2:3 $1 | col -bx
-        val manSections = "2:3" // only include System calls and Library functions sections
-        val manText = execute2("man", "-S", manSections, term).stdout
+        // Only include "System calls" and "Library functions" sections
+        // (see https://en.wikipedia.org/wiki/Man_page#Manual_sections)
+        val manSections = "2:3"
+        val manText = execute2("man", "-S", manSections, term).stdout.replace(Regex(".\b"), "")
         val (consoleView, closeAction) = showInConsole2(manText, "man $term", project)
         consoleView.scrollTo(0)
 
@@ -45,11 +46,9 @@ class OpenManPage : AnAction() {
 
     private fun execute2(vararg commandAndArgs: String): ExecResult {
         val cmdProc = Runtime.getRuntime().exec(commandAndArgs)
-        return ExecResult(
-            exitCode = cmdProc.exitValue(),
-            stdout = InputStreamReader(cmdProc.inputStream).buffered().readLines().joinToString("\n"),
-            stderr = InputStreamReader(cmdProc.errorStream).buffered().readLines().joinToString("\n")
-        )
+        val stdout = InputStreamReader(cmdProc.inputStream).buffered().readLines().joinToString("\n")
+        val stderr = InputStreamReader(cmdProc.errorStream).buffered().readLines().joinToString("\n")
+        return ExecResult(cmdProc.exitValue(), stdout, stderr)
     }
 
     private data class ExecResult(val exitCode: Int, val stdout: String, val stderr: String)
