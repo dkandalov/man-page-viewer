@@ -16,6 +16,10 @@
     <depends>com.intellij.modules.platform</depends>
 
     <actions>
-        <action class="manpageviewer.OpenManPage" keymap="ctrl shift M"/>
+        <action class="manpageviewer.OpenManPage" text="Open Man Page" description="Shows content of the man page for the word under caret">
+            <keyboard-shortcut first-keystroke="ctrl shift M" keymap="$default"/>
+            <keyboard-shortcut first-keystroke="ctrl shift M" keymap="Mac OS X"/>
+            <keyboard-shortcut first-keystroke="ctrl shift M" keymap="Mac OS X 10.5+"/>
+        </action>
     </actions>
 </idea-plugin>
