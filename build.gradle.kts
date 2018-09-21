@@ -43,7 +43,7 @@ tasks.withType<KotlinJvmCompile> {
         apiVersion = "1.0"
         languageVersion = "1.0"
         // Compiler flag to allow building against pre-released versions of Kotlin
-        // because IJ EAP can be built using pre-released Kotlin but it's still worth doing to check API compatability
+        // because IJ EAP can be built using pre-released Kotlin but it's still worth doing to check API compatibility
         freeCompilerArgs += listOf("-Xskip-metadata-version-check")
     }
 }
