@@ -18,13 +18,13 @@ import javax.swing.JComponent
 fun registerToolWindowIn(
     project: Project,
     toolWindowId: String,
-    disposable: Disposable,
+    parentDisposable: Disposable,
     location: ToolWindowAnchor = RIGHT,
     toolbarActionGroup: ActionGroup? = null,
     createComponent: () -> JComponent
 ): ToolWindow {
 
-    newDisposable(disposable) {
+    newDisposable(parentDisposable) {
         ToolWindowManager.getInstance(project).unregisterToolWindow(toolWindowId)
     }
 
@@ -50,7 +50,7 @@ fun registerToolWindowIn(
     return toolWindow
 }
 
-fun Disposable.createChild() = newDisposable(parents = this, onDisposal = {})
+fun Disposable.newChildDisposable(onDisposal: () -> Unit = {}) = newDisposable(parents = this, onDisposal = onDisposal)
 
 fun newDisposable(vararg parents: Disposable, onDisposal: () -> Unit = {}) = newDisposable(parents.toList(), onDisposal)
 

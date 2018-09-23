@@ -6,7 +6,6 @@ import com.intellij.execution.ui.ExecutionConsole
 import com.intellij.icons.AllIcons
 import com.intellij.icons.AllIcons.Actions.Cancel
 import com.intellij.openapi.actionSystem.*
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
@@ -42,7 +41,8 @@ class OpenManPage : AnAction() {
 
         val offset = caretModel.offset
         val text = document.charsSequence.toString()
-        val from = 0.until(offset).reversed().find { i -> !Character.isJavaIdentifierPart(text[i]) }?.let { it + 1 } ?: offset
+        val from = 0.until(offset).reversed().find { i -> !Character.isJavaIdentifierPart(text[i]) }?.let { it + 1 }
+            ?: offset
         val to = offset.until(text.length).find { i -> !Character.isJavaIdentifierPart(text[i]) } ?: offset
         return text.substring(from, to).toLowerCase()
     }
@@ -57,32 +57,31 @@ class OpenManPage : AnAction() {
     private data class ExecResult(val exitCode: Int, val stdout: String, val stderr: String)
 
     private fun showInToolWindow(message: String, consoleTitle: String, project: Project) {
-        ApplicationManager.getApplication().invokeLater {
-            val console = TextConsoleBuilderFactory.getInstance().createBuilder(project).console
-            console.print(message, NORMAL_OUTPUT)
+        val console = TextConsoleBuilderFactory.getInstance().createBuilder(project).console
+        console.print(message, NORMAL_OUTPUT)
 
-            val disposable = ApplicationManager.getApplication().createChild()
-            val toolbarActions = DefaultActionGroup().apply {
-                add(object: AnAction(Cancel) {
-                    override fun actionPerformed(event: AnActionEvent) {
-                        Disposer.dispose(disposable)
-                    }
-                })
-            }
-            val consoleComponent = MyConsolePanel(console, toolbarActions)
-            console.scrollTo(0)
-
-            val toolWindow = registerToolWindowIn(
-                project = project,
-                toolWindowId = "man",
-                disposable = disposable,
-                location = ToolWindowAnchor.BOTTOM,
-                toolbarActionGroup = null,
-                createComponent = { consoleComponent }
-            )
-            toolWindow.title = consoleTitle
-            toolWindow.icon = AllIcons.Toolwindows.Documentation // Has to be 13x13 icon
+        val toolWindowDisposable = project.newChildDisposable()
+        Disposer.register(toolWindowDisposable, console)
+        val toolbarActions = DefaultActionGroup().apply {
+            add(object : AnAction(Cancel) {
+                override fun actionPerformed(event: AnActionEvent) {
+                    Disposer.dispose(toolWindowDisposable)
+                }
+            })
         }
+        val consoleComponent = MyConsolePanel(console, toolbarActions)
+        console.scrollTo(0)
+
+        val toolWindow = registerToolWindowIn(
+            project = project,
+            toolWindowId = "man",
+            parentDisposable = toolWindowDisposable,
+            location = ToolWindowAnchor.BOTTOM,
+            toolbarActionGroup = null,
+            createComponent = { consoleComponent }
+        )
+        toolWindow.title = consoleTitle
+        toolWindow.icon = AllIcons.Toolwindows.Documentation // Has to be 13x13 icon
     }
 
     private class MyConsolePanel(console: ExecutionConsole, toolbarActions: ActionGroup) : JPanel(BorderLayout()) {
