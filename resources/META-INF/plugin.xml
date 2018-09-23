@@ -5,7 +5,9 @@
     <vendor email="dmitry.kandalov@gmail.com" url="https://github.com/dkandalov/man-page-viewer">Dmitry Kandalov</vendor>
 
     <description><![CDATA[
-        Plugin viewing man pages from IDE.
+        Plugin for viewing man pages from IDE.
+        Use "ctrl+shift+M" to view man page for selected text or word under caret in text editor.
+        The plugin uses "man" command so it have to be installed.
     ]]></description>
 
     <!-- http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html -->
