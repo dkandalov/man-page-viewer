@@ -81,7 +81,7 @@ class OpenManPage : AnAction() {
                 createComponent = { consoleComponent }
             )
             toolWindow.title = consoleTitle
-            toolWindow.icon = AllIcons.Actions.Help
+            toolWindow.icon = AllIcons.Toolwindows.Documentation // Has to be 13x13 icon
         }
     }
 
