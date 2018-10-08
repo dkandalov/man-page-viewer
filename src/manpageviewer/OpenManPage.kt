@@ -18,7 +18,7 @@ class OpenManPage : AnAction() {
     }
 
     private fun Editor.termUnderCaret(): String {
-        val selectedText = selectionModel.selectedText?.toLowerCase()
+        val selectedText = selectionModel.selectedText
         if (selectedText != null) return selectedText
 
         val offset = caretModel.offset
@@ -26,6 +26,6 @@ class OpenManPage : AnAction() {
         val from = 0.until(offset).reversed().find { i -> !Character.isJavaIdentifierPart(text[i]) }?.let { it + 1 }
             ?: offset
         val to = offset.until(text.length).find { i -> !Character.isJavaIdentifierPart(text[i]) } ?: offset
-        return text.substring(from, to).toLowerCase()
+        return text.substring(from, to)
     }
 }

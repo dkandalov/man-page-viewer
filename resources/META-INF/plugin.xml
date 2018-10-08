@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>man-page-viewer</id>
     <name>Man page viewer</name>
-    <version>0.1</version>
+    <version>0.1.1</version>
     <vendor email="dmitry.kandalov@gmail.com" url="https://github.com/dkandalov/man-page-viewer">Dmitry Kandalov</vendor>
 
     <description><![CDATA[
