@@ -40,7 +40,7 @@ tasks.withType<KotlinJvmCompile> {
 
 configure<IntelliJPluginExtension> {
     val ideVersion = System.getenv().getOrDefault("IJ_VERSION",
-        "IC-172.3757.29"
+        "201.6668.113"
 //        "LATEST-EAP-SNAPSHOT"
     )
     println("Using ide version: $ideVersion")

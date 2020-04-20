@@ -39,7 +39,7 @@ fun registerToolWindowIn(
         } else {
             SimpleToolWindowPanel(true).let {
                 it.setContent(createComponent())
-                it.setToolbar(ActionManager.getInstance().createActionToolbar(ActionPlaces.EDITOR_TOOLBAR, toolbarActionGroup, true).component)
+                it.toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.EDITOR_TOOLBAR, toolbarActionGroup, true).component
                 it
             }
         }

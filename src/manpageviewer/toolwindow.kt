@@ -60,6 +60,6 @@ fun showToolWindow(message: String, consoleTitle: String, project: Project) {
         createComponent = { consoleComponent }
     )
     toolWindow.title = consoleTitle
-    toolWindow.icon = AllIcons.Toolwindows.Documentation // Has to be 13x13 icon
+    toolWindow.setIcon(AllIcons.Toolwindows.Documentation) // Has to be 13x13 icon
     toolWindow.activate({}, false)
 }
