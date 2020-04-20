@@ -2,9 +2,7 @@ package manpageviewer
 
 import com.intellij.execution.filters.TextConsoleBuilderFactory
 import com.intellij.execution.ui.ConsoleView
-import com.intellij.execution.ui.ConsoleViewContentType
-import com.intellij.execution.ui.ConsoleViewContentType.*
-import com.intellij.execution.ui.ExecutionConsole
+import com.intellij.execution.ui.ConsoleViewContentType.NORMAL_OUTPUT
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.project.Project

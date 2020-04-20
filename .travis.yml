@@ -1,9 +1,8 @@
-dist: trusty
 language: java
-jdk: oraclejdk8
+jdk: oraclejdk11
 
 env:
-  - MANPAGEVIEWER_PLUGIN_IDEA_VERSION=IC-172.3757.29
-  - MANPAGEVIEWER_PLUGIN_IDEA_VERSION=LATEST-EAP-SNAPSHOT
+  - IJ_VERSION=IC-172.3757.29
+  - IJ_VERSION=LATEST-EAP-SNAPSHOT
 
 script: ./gradlew check buildPlugin --info

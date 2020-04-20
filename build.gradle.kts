@@ -14,19 +14,15 @@ repositories {
     mavenCentral()
 }
 
-fun sourceRoots(block: SourceSetContainer.() -> Unit) = sourceSets.apply(block)
 val SourceSet.kotlin: SourceDirectorySet
     get() = (this as HasConvention).convention.getPlugin<KotlinSourceSet>().kotlin
-var SourceDirectorySet.sourceDirs: Iterable<File>
-    get() = srcDirs
-    set(value) { setSrcDirs(value) }
 
-sourceRoots {
-    getByName("main") {
+sourceSets {
+    main {
         kotlin.srcDirs("./src")
         resources.srcDirs("./resources")
     }
-    getByName("test") {
+    test {
         kotlin.srcDirs("./test")
     }
 }
@@ -43,7 +39,10 @@ tasks.withType<KotlinJvmCompile> {
 }
 
 configure<IntelliJPluginExtension> {
-    val ideVersion = System.getenv().getOrDefault("MANPAGEVIEWER_PLUGIN_IDEA_VERSION", "IC-172.3757.29")
+    val ideVersion = System.getenv().getOrDefault("IJ_VERSION",
+        "IC-172.3757.29"
+//        "LATEST-EAP-SNAPSHOT"
+    )
     println("Using ide version: $ideVersion")
     version = ideVersion
     pluginName = "man-page-viewer"

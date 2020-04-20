@@ -50,7 +50,7 @@ fun registerToolWindowIn(
     return toolWindow
 }
 
-fun Disposable.newChildDisposable(onDisposal: () -> Unit = {}) = newDisposable(parents = this, onDisposal = onDisposal)
+fun Disposable.newChildDisposable(onDisposal: () -> Unit = {}) = newDisposable(parents = *arrayOf(this), onDisposal = onDisposal)
 
 fun newDisposable(vararg parents: Disposable, onDisposal: () -> Unit = {}) = newDisposable(parents.toList(), onDisposal)
 
