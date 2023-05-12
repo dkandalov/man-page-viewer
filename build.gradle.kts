@@ -7,8 +7,8 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 plugins {
     idea
     java
-    kotlin("jvm").version("1.3.70")
-    id("org.jetbrains.intellij").version("0.4.18")
+    kotlin("jvm").version("1.6.21")
+    id("org.jetbrains.intellij").version("1.13.3")
 }
 repositories {
     mavenCentral()
@@ -30,8 +30,8 @@ sourceSets {
 tasks.withType<KotlinJvmCompile> {
     kotlinOptions {
         jvmTarget = "11"
-        apiVersion = "1.3"
-        languageVersion = "1.3"
+        apiVersion = "1.6"
+        languageVersion = "1.6"
         // Compiler flag to allow building against pre-released versions of Kotlin
         // because IJ EAP can be built using pre-released Kotlin but it's still worth doing to check API compatibility
         freeCompilerArgs = freeCompilerArgs + listOf("-Xskip-metadata-version-check")
@@ -40,17 +40,13 @@ tasks.withType<KotlinJvmCompile> {
 
 configure<IntelliJPluginExtension> {
     val ideVersion = System.getenv().getOrDefault("IJ_VERSION",
-        "201.6668.113"
+        "212.4746.92" // with kotlin 1.5.10 support
 //        "LATEST-EAP-SNAPSHOT"
     )
     println("Using ide version: $ideVersion")
-    version = ideVersion
-    pluginName = "man-page-viewer"
-    downloadSources = true
-    sameSinceUntilBuild = false
-    updateSinceUntilBuild = false
+    version.set(ideVersion)
+    pluginName.set("man-page-viewer")
+    downloadSources.set(true)
+    sameSinceUntilBuild.set(false)
+    updateSinceUntilBuild.set(false)
 }
-
-task(name = "runIdeWithDifferentJvm", type = RunIdeTask::class, configuration = {
-    setJbrVersion("jbrex8u152b1024.10")
-})
