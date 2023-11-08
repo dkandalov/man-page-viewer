@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/dkandalov/man-page-viewer.svg?branch=master)](https://travis-ci.org/dkandalov/man-page-viewer)
+[![Build Status](https://github.com/dkandalov/man-page-viewer/workflows/CI/badge.svg)](https://github.com/dkandalov/man-page-viewer/actions)
+
 
 ### Man page viewer
 This is a plugin for IntelliJ IDEs to open [man pages](https://en.wikipedia.org/wiki/Man_page).
